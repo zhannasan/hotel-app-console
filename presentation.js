@@ -32,13 +32,13 @@ rl.question('Choisir une action : ... ', function(saisie){
         })
         break;
     case '2':
-       rl.question(`Veuillez saisir le nom du client à ajouter :`, function(saisieNom){
+       rl.question(`Veuillez saisir le nom du client à ajouter ... `, function(saisieNom){
         var nomClient = saisieNom.trim();
-            rl.question(`Veuillez saisir le prenom du client...`,function(saisiePrenom){
+            rl.question(`Veuillez saisir le prenom du client ... `,function(saisiePrenom){
             
             var prenomClient = saisiePrenom.trim();
 
-            console.log(`Liste des clients avec le nom `+saisieNom);
+            console.log(`Le client `+nomClient+" "+prenomClient+` a bien été enregistré.`);
             service.addClient(nomClient,prenomClient, function(body){
              //   let empty=[];
               //  if(body.isArray(empty)&&empty.length){

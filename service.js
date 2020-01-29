@@ -11,14 +11,13 @@ function getClients(callback,callbackErr){
 exports.getClients = getClients;
 
 function addClient(nomClient,prenomClient,callback){
-    request.post('https://spring-mvc-hotel-app.herokuapp.com/client', {
-        json : true,
-        body: JSON.stringify({
-            client: {
+    request('https://spring-mvc-hotel-app.herokuapp.com/client', {
+       // json : true,
+        method: 'POST',
+        json: {
                 nom: nomClient,
-                prenom: prenomClient
-            }
-        })
+                prenoms: prenomClient
+        }
     }, 
         function(err, res,body){
             if(err){
@@ -44,3 +43,23 @@ function getClientByName(nom,callback, callbackErr){
         });
 }
 exports.getClientByName = getClientByName;
+
+function getAvRoom(nom,callbackCh, callbackRes, callbackErr){
+    request('https://spring-mvc-hotel-app.herokuapp.com/chambre', {json : true}, 
+        function(error, res, body){
+            if(error){
+                callbackErr(error);  
+            }
+            
+            callbackCh(bodyCh);
+        });
+    request('https://spring-mvc-hotel-app.herokuapp.com/reservation', {json : true}, 
+        function(error, res, body){
+            if(error){
+                callbackErr(error);  
+            }
+            
+            callbackRes(bodyRes);
+        });
+}
+exports.getAvRoom = getAvRoom;
