@@ -1,3 +1,3 @@
 console.log('** Administration Hotel **');
 var startModule = require('./presentation.js');
-var startings = startModule.start();
+var startings = startModule.showMenu();

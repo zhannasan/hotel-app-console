@@ -1,6 +1,8 @@
 var request = require('request');
+var config = require('./config');
+
 function getClients(callback,callbackErr){
-    request('https://spring-mvc-hotel-app.herokuapp.com/client', {json : true}, 
+    request(config.urlGetClients, {json : true}, 
         function(error, res,body){
             if(error){
                 callbackErr(error);  
@@ -11,8 +13,7 @@ function getClients(callback,callbackErr){
 exports.getClients = getClients;
 
 function addClient(nomClient,prenomClient,callback){
-    request('https://spring-mvc-hotel-app.herokuapp.com/client', {
-       // json : true,
+    request(config.urlGetClients, {
         method: 'POST',
         json: {
                 nom: nomClient,
@@ -24,36 +25,32 @@ function addClient(nomClient,prenomClient,callback){
                 console.log('Erreur',err);
                return
             }
-          
-            console.log(`statusCode: ${res.statusCode}`);
-            console.log(body)
         });
 }
 
 exports.addClient = addClient;
 
 function getClientByName(nom,callback, callbackErr){
-    request('https://spring-mvc-hotel-app.herokuapp.com/client?nom='+nom, {json : true}, 
+    console.log(config.urlGetClientByName+nom);
+    request(config.urlGetClientByName+nom, {json : true}, 
         function(error, res, body){
             if(error){
                 callbackErr(error);  
             }
-            
             callback(body);
         });
 }
 exports.getClientByName = getClientByName;
 
-function getAvRoom(nom,callbackCh, callbackRes, callbackErr){
-    request('https://spring-mvc-hotel-app.herokuapp.com/chambre', {json : true}, 
+function getRoom(callbackCh, callbackRes, callbackErr){
+    request(config.urlGetRoom, {json : true}, 
         function(error, res, body){
             if(error){
                 callbackErr(error);  
-            }
-            
+            }  
             callbackCh(bodyCh);
         });
-    request('https://spring-mvc-hotel-app.herokuapp.com/reservation', {json : true}, 
+    request(config.urlGetReservation, {json : true}, 
         function(error, res, body){
             if(error){
                 callbackErr(error);  
@@ -62,4 +59,4 @@ function getAvRoom(nom,callbackCh, callbackRes, callbackErr){
             callbackRes(bodyRes);
         });
 }
-exports.getAvRoom = getAvRoom;
+exports.getRoom = getRoom;
