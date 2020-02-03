@@ -1,62 +1,26 @@
-var request = require('request');
+var request = require('request-promise-native');
 var config = require('./config');
 
-function getClients(callback,callbackErr){
-    request(config.urlGetClients, {json : true}, 
-        function(error, res,body){
-            if(error){
-                callbackErr(error);  
-            }
-            callback(body);;
-        });
-}
-exports.getClients = getClients;
-
-function addClient(nomClient,prenomClient,callback){
-    request(config.urlGetClients, {
-        method: 'POST',
-        json: {
-                nom: nomClient,
-                prenoms: prenomClient
-        }
-    }, 
-        function(err, res,body){
-            if(err){
-                console.log('Erreur',err);
-               return
-            }
-        });
+const getClients= ()=>{
+    return request(config.urlGetClients, {json : true});
 }
 
-exports.addClient = addClient;
 
-function getClientByName(nom,callback, callbackErr){
-    console.log(config.urlGetClientByName+nom);
-    request(config.urlGetClientByName+nom, {json : true}, 
-        function(error, res, body){
-            if(error){
-                callbackErr(error);  
-            }
-            callback(body);
-        });
+const addClient = (nomClient,prenomClient)=>{
+    const options = { method: 'POST',
+                json: {
+                        nom: nomClient,
+                        prenoms: prenomClient
+                }};
+    return request(config.urlGetClients,options);
 }
-exports.getClientByName = getClientByName;
 
-function getRoom(callbackCh, callbackRes, callbackErr){
-    request(config.urlGetRoom, {json : true}, 
-        function(error, res, body){
-            if(error){
-                callbackErr(error);  
-            }  
-            callbackCh(bodyCh);
-        });
-    request(config.urlGetReservation, {json : true}, 
-        function(error, res, body){
-            if(error){
-                callbackErr(error);  
-            }
-            
-            callbackRes(bodyRes);
-        });
+const getClientByName = (nom) => {
+    return request(`${config.urlGetClients}?nom=${nom}`, {json : true});
 }
-exports.getRoom = getRoom;
+
+
+const getRoom = (dateDebut, dateFin)=>{
+    return request(`${config.urlGetRoom}?dateDebut=${dateDebut}?dateFin=${dateFin}`, {json : true});
+}
+module.exports={getClients, addClient, getClientByName, getRoom}
