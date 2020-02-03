@@ -21,6 +21,6 @@ const getClientByName = (nom) => {
 
 
 const getRoom = (dateDebut, dateFin)=>{
-    return request(`${config.urlGetRoom}?dateDebut=${dateDebut}?dateFin=${dateFin}`, {json : true});
+    return request(`${config.urlGetRoom}?dateDebut=${dateDebut}&dateFin=${dateFin}`, {json : true});
 }
 module.exports={getClients, addClient, getClientByName, getRoom}
